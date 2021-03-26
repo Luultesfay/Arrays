@@ -81,6 +81,65 @@ const displayMovement = function (movements) {
   });
 };
 displayMovement(account1.movements); //this is calling and passing argument to the function  for the client  account 1
+/*
+//we want to create user name   and want by its first intials   like for the user   'Steven Thomas Williams';  is  'stw'   and for other users the same 
+const user = 'Steven Thomas Williams';
+const userName = user
+  .toLowerCase()
+  .split(' ')
+  .map(function (mov) {
+    return mov[0];
+  })
+  .join('');
+console.log(userName);
+*/
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.userName = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(mov => mov[0]) //.map(mov => mov[0]) this means  .map(mov =>return mov[0])  we acutlly return but we dont see the return key word or we dont write it it works internally
+      .join('');
+  });
+};
+createUsernames(accounts);
+console.log(accounts);
+//outputs
+/*(4) […]
+​
+0: Object { owner: "Jonas Schmedtmann", interestRate: 1.2, pin: 1111, … }
+​
+1: Object { owner: "Jessica Davis", interestRate: 1.5, pin: 2222, … }
+​
+2: Object { owner: "Steven Thomas Williams", interestRate: 0.7, pin: 3333, … }
+​
+3: Object { owner: "Sarah Smith", interestRate: 1, pin: 4444, … }
+​
+length: 4
+​
+<prototype>: Array []*/
+
+/*const createUsernames = function (user) {//note we will modifay this to accept all the account owners so we will comment it out  and we will modifay witt the above code
+  const userName = user
+    .toLowerCase()
+    .split(' ')
+    .map(mov => mov[0]) //.map(mov => mov[0]) this means  .map(mov =>return mov[0])  we acutlly return but we dont see the return key word or we dont write it it works internally
+    .join('');
+  return userName;
+};
+console.log(createUsernames('Steven Thomas Williams')); //stw
+console.log(createUsernames('Jessica Davis')); //jd
+*/
+
+//Rewrite this code using arrow function
+/*const user = 'Steven Thomas Williams';
+const userName = user
+  .toLowerCase()
+  .split(' ')
+  .map(mov => mov[0]) //.map(mov => mov[0]) this means  .map(mov =>return mov[0])  we acutlly return but we dont see the return key word or we dont write it it works internally
+  .join('');
+console.log(userName);*/
+//note we will comment out part of the above code and copy to created user functions to apply for all users
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
