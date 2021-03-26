@@ -266,3 +266,47 @@ Dog number4 is is still a puppy script.
 Dog number5 is is an adalt and 15 years old 
 Dog number6 is is an adalt and 8 years old 
 Dog number7 is is still a puppy*/
+
+////DATA TRANSFORMATION WITH MAPS ,FILTER AND REDUCE
+/*these are methods that we use to create new arrays based on transforming data from other arrays.
+And in recent years,these tools have become really popular and for good reasons
+and therefore you'll see them everywhere you look in Modern JavaScript. */
+
+///MAP
+//map method
+/*is yet another method that we can use to loop over arrays. So, map is actually similar
+to the forEach method that we studied before but with the difference that map creates a brand new array based on the original array.*/
+//ex  arr=[3,1,4,3,2] ==>  map{ current *2} ===> newArr[6,2,8,6,4]
+
+//filter method
+//filter returns new array conatining the array elements that passed  a specific test condition
+//ex  arr=[3,1,4,3,2] ==>  filter(current>2) ===> newArr[3,4,3]
+
+//reduce
+// reduce boils('reduces ') all array element down to one single value (eg adding all elements together)
+//ex  arr=[3,1,4,3,2] ==> reduce(accumulator+current) ===> new value = 13
+
+//example of maps
+/* lets take the movement array , we will try to convert them to US dollars.
+So let's suppose these movements are in euros
+and we now want to convert them to US dollars.*/
+
+const euroTousd = 1.1;
+
+//const movementUSD = movements.map(function (mov) {
+//return mov * euroTousd;
+//});
+const movementUSD = movements.map(mov => mov * euroTousd); //clner code // this is arrow function this yield the same result as the above function with call back
+
+console.log(movements); //Array(8) [ 200, 450, -400, 3000, -650, -130, 70, 1300 ]
+console.log(movementUSD); //Array(8) [ 220.00000000000003, 495.00000000000006, -440.00000000000006, 3300.0000000000005, -715.0000000000001, -143, 77, 1430.0000000000002 ]
+
+/// lets see the bove code how it work with 'for of' loop  this means we write the above code
+const newMovementsUSD = [];
+for (const mov of movements) {
+  newMovementsUSD.push(mov * euroTousd);
+}
+console.log(movements); //Array(8) [ 200, 450, -400, 3000, -650, -130, 70, 1300 ]//old movment
+console.log(newMovementsUSD); //Array(8) [ 220.00000000000003, 495.00000000000006, -440.00000000000006, 3300.0000000000005, -715.0000000000001, -143, 77, 1430.0000000000002 ]
+
+//note the differnce with maps and 'for of'  is  in the above example map   we use functions to loop over the array and in the forof we simply loop over an array movement
