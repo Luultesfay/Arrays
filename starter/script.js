@@ -457,3 +457,63 @@ const max = movements.reduce((acc, mov) => {
 }, movements[0]);
 console.log(movements);
 console.log(max); //3000  now we get the maximum
+
+////challange #2
+/* Let's go back to Julia and Kate's study about dogs. This time, they want to convert
+dog ages to human ages and calculate the average age of the dogs in their study.*/
+
+/*Your tasks:
+Create a function 'calcAverageHumanAge', which accepts an arrays of dog's
+ages ('ages'), and does the following things in order:
+
+1. Calculate the dog age in human years using the following formula: if the dog is
+<= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old,
+humanAge = 16 + dogAge * 4;*/
+
+/*const calcAverageHumanAge = function (dogAges) {
+  const humanDogAge = dogAges.map(function (ageD) {
+    let humanAge;
+    if (ageD <= 2) {
+      humanAge = 2 * ageD;
+      console.log(`the dogAge ${ageD} equals to humanAge ${humanAge}`);
+    } else if (ageD > 2) {
+      humanAge = 16 + ageD * 4;
+      console.log(`the dogAge ${ageD} equals to humanAge ${humanAge}`);
+    }
+  });
+  console.log(humanDogAge);
+};
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+*/
+
+//const humanAge = ageD <= 2 ? 2 * ageD : 16 + ageD * 4;
+
+const calcAverageHumanAge = function (dogAges) {
+  const humanDogAge = dogAges.map(function (ageD) {
+    // we use map here    to calculate human age
+    const humanAge = ageD <= 2 ? 2 * ageD : 16 + ageD * 4;
+    //console.log(`the dogAge ${ageD} equals to humanAge ${humanAge}`);
+    return humanAge;
+  });
+  console.log(humanDogAge); //[ 36, 4, 32, 2, 76, 48, 28 ]       2nd test  [ 80, 40, 56, 36, 40, 2, 32 ]
+
+  //2. Exclude all dogs that are less than 18 human years old (which is the same as keeping dogs that are at least 18 years old)
+
+  const DogAgeAbove18 = humanDogAge.filter(function (humanAge) {
+    //we use filter to get  human age  above 18
+    return humanAge > 18;
+  });
+  console.log(DogAgeAbove18); //[ 36, 32, 76, 48, 28 ]       2nd test  [ 80, 40, 56, 36, 40, 32 ]
+
+  //3. Calculate the average human age of all adult dogs (you should already know from other challenges how we calculate averages 😉)
+  const avgHumanAge = DogAgeAbove18.reduce(function (acc, age) {
+    // we use reduce method for calculating the average age of human
+    const totalSum = acc + age;
+    return totalSum; //220
+  }, 0);
+
+  console.log(avgHumanAge / DogAgeAbove18.length); //44     2nd test  47.33..6
+};
+//4. Run the function for both test datasets
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]); // the first dog age  for test
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]); // the second dog age for test
