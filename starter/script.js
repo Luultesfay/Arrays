@@ -81,7 +81,18 @@ const displayMovement = function (movements) {
   });
 };
 displayMovement(account1.movements); //this is calling and passing argument to the function  for the client  account 1
+
+//we want to add an idividula acount movement to  labelBalance
+
+const displayMovementBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0); //add all the movements of account one
+  labelBalance.textContent = `${balance} EUR`; // we do here dom manuplation  in the browser
+};
+
+displayMovementBalance(account1.movements); //passes movement of account one
+
 /*
+
 //we want to create user name   and want by its first intials   like for the user   'Steven Thomas Williams';  is  'stw'   and for other users the same 
 const user = 'Steven Thomas Williams';
 const userName = user
@@ -369,3 +380,80 @@ console.log(movements); //Array(8) [ 200, 450, -400, 3000, -650, -130, 70, 1300 
 console.log(newMovementsUSD); //Array(8) [ 220.00000000000003, 495.00000000000006, -440.00000000000006, 3300.0000000000005, -715.0000000000001, -143, 77, 1430.0000000000002 ]
 
 //note the differnce with maps and 'for of'  is  in the above example map   we use functions to loop over the array and in the forof we simply loop over an array movement
+
+/////////FILTER METHOD
+// we want to filter only the deposit from the movement array  using filter
+
+const deposit = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(movements); //[ 200, 450, -400, 3000, -650, -130, 70, 1300 ]
+console.log(deposit); //[ 200, 450, 3000, 70, 1300 ]  returns only the positive value means deposit
+
+//we can also rewrite the above code using forof loop
+const depositFor = [];
+for (const mov of movements) {
+  if (mov > 0) depositFor.push(mov);
+}
+console.log(depositFor); //Array(5) [ 200, 450, 3000, 70, 1300 ]
+
+/// we calculate withdrawals using filter method
+/*const withdrowals = movements.filter(function (mov) {
+  return mov < 0;
+});
+console.log(withdrowals); // [ -400, -650, -130 ]
+*/
+
+// the above code using arrow function   its the easet way
+const withdrowals = movements.filter(mov => mov < 0);
+
+console.log(withdrowals); // [ -400, -650, -130 ]
+
+/////////// REDUCE METHIOD
+
+//REDUCE Method adds all elements to the single value
+//eg we will add all the movements value  to  sigle value
+
+//the callback function in reduce method have  accumulator which is holding the total value plus current , current element,index,array  and olso  intial 0 as second parameter
+
+const balance = movements.reduce(function (acc, cur, i, array) {
+  console.log(`iter ${i} : ${acc}`); //this to show accumulator at each iteration
+  /* iter 0 : 0 
+     iter 1 : 200 
+     iter 2 : 650 
+     iter 3 : 250 
+     iter 4 : 3250 
+     iter 5 : 2600 
+     iter 6 : 2470 
+     iter 7 : 2540 
+*/
+  return acc + cur;
+}, 0); // the 0  at the  function is an intial for accumilator becouse   an acumilator is 0 when it begins at first
+
+console.log(balance); //3840   added all the movement
+
+//lets we write using arrow function to the above code  we will make it balance2 we don't want to make cofusion with  balace in the above
+const balance2 = movements.reduce((accc, curr) => accc + curr, 0); // the 0  at the  function is an intial for accumilator becouse   an acumilator is 0 when it begins at first
+console.log(balance2); //3840   added all the movement
+
+//// lets try the above code  using for of loop
+
+let balanceFor = 0;
+
+for (const mov of movements) {
+  balanceFor += mov;
+}
+console.log(balanceFor); //3840
+
+// letsmake another exmple using reduce  this time we want to print the max element from the movments
+
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) {
+    //if accumilator is greter than curent movement so we keep the acc
+    return acc;
+  } else {
+    return mov;
+  }
+}, movements[0]);
+console.log(movements);
+console.log(max); //3000  now we get the maximum
