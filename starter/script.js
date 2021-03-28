@@ -80,7 +80,7 @@ const displayMovement = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html); //we insert the html data to the movement container using insertAdjacentHTML container
   });
 };
-displayMovement(account1.movements); //this is calling and passing argument to the function  for the client  account 1
+//displayMovement(account1.movements); //this is calling and passing argument to the function  for the client  account 1      /////we will comment out this becouse we will  put it at the last and will it work for all accounts
 
 //we want to add an idividula acount movement to  labelBalance
 
@@ -89,7 +89,7 @@ const displayMovementBalance = function (movements) {
   labelBalance.textContent = `${balance} €`; // we do here dom manuplation  in the browser
 };
 
-displayMovementBalance(account1.movements); //passes movement of account one
+//displayMovementBalance(account1.movements); //passes movement of account one        /////WE WILL COMMENT OUT THIS B/C WE WANT TO WORK IT FOR ALL ACCOUNT AND WIIL PUT IT AT THE LAST BEFORE WE LOG IN TO THE app
 
 ////we will add all the deposit and desplay in the IN  means income  area of the project using filter and reduce method and add to the visible part using DOM manuplation
 
@@ -114,7 +114,7 @@ const calcDisplaySummary = function (movements) {
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-calcDisplaySummary(account1.movements);
+//calcDisplaySummary(account1.movements); //  ////// commment out BECOUSE WE WANT TO WORK IT FOR ALL ACCOUNTS AND WILL PUT IT IN  BEFORE WE LOG IN
 
 /*
 
@@ -176,6 +176,36 @@ const userName = user
   .join('');
 console.log(userName);*/
 //note we will comment out part of the above code and copy to created user functions to apply for all users
+
+////EVENT HANDLERS  ABOUT LOGIN
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault(); //prevent from submitting
+  currentAccount = accounts.find(
+    acc => acc.userName === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //we aded here optinal chaning(?.) to make the error to undefined
+    //now if both the pin and username true then we display the below  messages as the next step
+    //display UI AND MESSAGE
+    labelWelcome.textContent = `Wellcome back,${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100; //we manuplate the style in the app class  opacity from 0 to 100  now the page will be visible
+
+    //CLEAR THE INPUT FIELD AND PIN WHEN WE LOG IN
+    inputLoginUsername.value = inputLoginPin.value = ''; //it removes the user name and the pin number when we already log it to our account make it very secure that it hide from athers from see our credinsials
+    inputLoginPin.blur(); //it makes blur to the user and pin button
+    //DISPLAY MOVEMENTS
+    displayMovement(currentAccount.movements);
+    //DISPLAY BALANCE
+    displayMovementBalance(currentAccount.movements);
+    //DISPLAYSUMMARY
+    calcDisplaySummary(currentAccount.movements);
+  }
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -576,3 +606,24 @@ const calcAverageHumanAg = dogAges =>
 console.log(calcAverageHumanAg([5, 2, 4, 1, 15, 8, 3])); // the first dog age  for test
 console.log(calcAverageHumanAg([16, 6, 10, 5, 6, 1, 4])); // the second dog age for test
 //44     2nd test  47.33..6
+
+/////////  FIND METHOD
+//we can use the 'Find" method to retrieve one element of an array based on a condition.
+//the Find method also needs a callback function that returns a Boolean.
+//the Find method will actually not return a new array but it will only return the first element in the array that satisfies this condition.
+
+// find vs filter
+/*the Find method is a bit similar to the Filter method,but there are two fundamental differences.
+-First Filter returns all the elements that match the condition while   --the Find method  only returns the first one 
+-second the Filter method returns a new array while   ---Find only returns the element itself and not an array,*/
+
+//eg
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements); //[ 200, 450, -400, 3000, -650, -130, 70, 1300 ]
+console.log(firstWithdrawal); //-400
+
+//eg lets take the user login account that is in the project
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis'); //this is true   the it will retrive the account of the matched person
+console.log(account); //Object { owner: "Jessica Davis", movements: (8) […], interestRate: 1.5, pin: 2222, userName: "jd" }
