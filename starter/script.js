@@ -558,3 +558,21 @@ const stockBalanceGain = stockMarket
   .reduce((acc, gain) => acc + gain, 0); //4600
 console.log(stockBalanceGain); //4600
 //note we  calculate the balance first by filtering the gains and then by map  that gain maltiplays by 2  the we chain to reduce and calculate the deposit.
+
+///Coding Challenge #3
+
+//Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time as an arrow function, and using chaining
+/*Test data:
+Data 1: [5, 2, 4, 1, 15, 8, 3]
+ Data 2: [16, 6, 10, 5, 6, 1, 4]*/
+
+const calcAverageHumanAg = dogAges =>
+  dogAges
+    .map(ageD => (ageD <= 2 ? 2 * ageD : 16 + ageD * 4))
+    .filter(humanAge => humanAge > 18)
+    .reduce((acc, humanAge, i, arr) => acc + humanAge / arr.length, 0);
+
+//4. Run the function for both test datasets
+console.log(calcAverageHumanAg([5, 2, 4, 1, 15, 8, 3])); // the first dog age  for test
+console.log(calcAverageHumanAg([16, 6, 10, 5, 6, 1, 4])); // the second dog age for test
+//44     2nd test  47.33..6
