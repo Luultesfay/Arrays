@@ -86,10 +86,35 @@ displayMovement(account1.movements); //this is calling and passing argument to t
 
 const displayMovementBalance = function (movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0); //add all the movements of account one
-  labelBalance.textContent = `${balance} EUR`; // we do here dom manuplation  in the browser
+  labelBalance.textContent = `${balance} €`; // we do here dom manuplation  in the browser
 };
 
 displayMovementBalance(account1.movements); //passes movement of account one
+
+////we will add all the deposit and desplay in the IN  means income  area of the project using filter and reduce method and add to the visible part using DOM manuplation
+
+const calcDisplaySummary = function (movements) {
+  //calculate income and desoplay it
+  const income = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${income}€`;
+  //calculate outcome and display it
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`; //we remove the negative sign using Math.abs
+
+  //we calculate interest with 1.2% in every deposit
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(mov => mov * 0.012) //12/100
+    .filter(int => int >= 1) ///this means filter if the interest is >=1   the interest less than one is not counted to the interest they simply filtered out
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+calcDisplaySummary(account1.movements);
 
 /*
 
@@ -517,3 +542,19 @@ const calcAverageHumanAge = function (dogAges) {
 //4. Run the function for both test datasets
 calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]); // the first dog age  for test
 calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]); // the second dog age for test
+
+// THE MAGIC OF CHAIING METHODS
+//we have been using the map filter  and reduce methods kind of in isolation.
+//However, we can take this one step further by chaining all these methods one after another.
+
+// eg lets  create an array  name  stock market with  different value means gain and loss then
+//calculate the balance of all gains  by  filter it and map it and also use reduce  by chaing all this methods
+
+const stockMarket = [200, 300, -400, 800, -200, 1000];
+//all the methods is chaing and asiign to one variable
+const stockBalanceGain = stockMarket
+  .filter(gain => gain > 0) //[ 200, 300, 800, 1000 ]
+  .map(gain => gain * 2) //[ 400, 600, 1600, 2000 ]
+  .reduce((acc, gain) => acc + gain, 0); //4600
+console.log(stockBalanceGain); //4600
+//note we  calculate the balance first by filtering the gains and then by map  that gain maltiplays by 2  the we chain to reduce and calculate the deposit.
