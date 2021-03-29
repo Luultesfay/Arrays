@@ -730,3 +730,46 @@ const deposits = mov => mov > 0; //call back function
 console.log(movements.every(deposits)); //false
 console.log(movements.some(deposits)); //true
 console.log(movements.filter(deposits)); // [ 200, 450, 3000, 70, 1300 ]  filters only the postive
+
+//////////flat and flatmap  methods of array  introduce in 2019
+
+//flat method  lets see eg
+
+const aarray = [1, 2, [3, 4, 5], [6, 7]]; //lets put all in single array
+console.log(aarray.flat()); //[ 1, 2, 3, 4, 5, 6, 7 ]
+
+//what about if wen have super nested means a nest inside anest like ifi it go depper
+const deepArr = [1, 2, [3, [4, 5]], [6, 7, [8]]];
+console.log(deepArr.flat()); //[ 1, 2, 3, (2) […], 6, 7, (1) […] ] it doesn't do its job  becouse only do the 1st level
+//to make it work we need to specifay the level how deper we need to flat it
+console.log(deepArr.flat(2)); //[ 1, 2, 3, 4, 5, 6, 7, 8 ]    becouse we specifay the level   here is  2
+
+/*
+
+//lets see real example lets bring all the movemets of all the account in the bankList project and stored them in single array
+const accMovement = accounts.map(acc => acc.movements);
+console.log(accMovement); //[ (8) […], (8) […], (8) […], (5) […] ] all the accounts movement
+
+const allAccMovements = accMovement.flat();
+console.log(allAccMovements); //Array(29) [ 200, 450, -400, 3000, -650, -130, 70, 1300, 5000, 3400, … ]
+
+//lets calculate overall balance of all this flattened movement of the account
+
+const overAllBallance = allAccMovements.reduce((acc, mov) => acc + mov, 0);
+console.log(overAllBallance); //17840
+
+*/
+//we can shortning all the above
+//flat
+const overAllBallance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(overAllBallance); //17840
+
+//flatMap  is combination of flat and map
+const overAllBallance2 = accounts
+  .flatMap(acc => acc.movements) //flat Map method only goes 1 deep level  but if we encountered with super nested deep arrays  we  need to  use flat only
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overAllBallance2); //17840
