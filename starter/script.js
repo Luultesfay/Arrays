@@ -241,6 +241,30 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+//closing account       and also a new method called  'findindex' it is the same like 'find' but it returns only the index of that element
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  //console.log('close account');//testing
+
+  if (
+    //here testing if the input close user name value  are the same as current user name of that account we want  to delete
+    inputCloseUsername.value === currentAccount.userName &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.userName === currentAccount.userName
+    );
+    console.log(index); //testing  that if it outputs index
+    //deleted account
+    accounts.splice(index, 1);
+
+    //hide UI of the deleted account
+    containerApp.style.opacity = 0; // we can check how many account have in the counsole by writing accounts
+  }
+  inputCloseUsername.value = inputClosePin.value = ''; // this clears the input value and find after we  submit it to be delated
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
