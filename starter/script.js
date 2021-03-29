@@ -74,8 +74,8 @@ const displayMovement = function (movements) {
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${
       i + 1
-    }${type}</div>
-      <div class="movements__value">${mov}</div>
+    }  ${type}</div>
+      <div class="movements__value">${mov}€</div>
     </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html); //we insert the html data to the movement container using insertAdjacentHTML container
   });
@@ -84,16 +84,16 @@ const displayMovement = function (movements) {
 
 //we want to add an idividula acount movement to  labelBalance
 
-const displayMovementBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0); //add all the movements of account one
-  labelBalance.textContent = `${balance} €`; // we do here dom manuplation  in the browser
+const displayMovementBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0); //add all the movements of account one
+  labelBalance.textContent = `${acc.balance} €`; // we do here dom manuplation  in the browser
 };
 
 //displayMovementBalance(account1.movements); //passes movement of account one        /////WE WILL COMMENT OUT THIS B/C WE WANT TO WORK IT FOR ALL ACCOUNT AND WIIL PUT IT AT THE LAST BEFORE WE LOG IN TO THE app
 
 ////we will add all the deposit and desplay in the IN  means income  area of the project using filter and reduce method and add to the visible part using DOM manuplation
 
-const calcDisplaySummary = function (movements) {
+const calcDisplaySummary = function (acc) {
   //calculate income and desoplay it
   const income = movements
     .filter(mov => mov > 0)
@@ -107,9 +107,9 @@ const calcDisplaySummary = function (movements) {
 
   //we calculate interest with 1.2% in every deposit
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(mov => mov * 0.012) //12/100
+    .map(deposit => deposit * acc.interestRate)
     .filter(int => int >= 1) ///this means filter if the interest is >=1   the interest less than one is not counted to the interest they simply filtered out
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
@@ -177,6 +177,15 @@ const userName = user
 console.log(userName);*/
 //note we will comment out part of the above code and copy to created user functions to apply for all users
 
+const updateUI = function (acc) {
+  //DISPLAY MOVEMENTS
+  displayMovement(acc.movements);
+  //DISPLAY BALANCE
+  displayMovementBalance(acc);
+  //DISPLAYSUMMARY
+  calcDisplaySummary(acc);
+};
+
 ////EVENT HANDLERS  ABOUT LOGIN
 let currentAccount;
 
@@ -198,12 +207,37 @@ btnLogin.addEventListener('click', function (e) {
     //CLEAR THE INPUT FIELD AND PIN WHEN WE LOG IN
     inputLoginUsername.value = inputLoginPin.value = ''; //it removes the user name and the pin number when we already log it to our account make it very secure that it hide from athers from see our credinsials
     inputLoginPin.blur(); //it makes blur to the user and pin button
-    //DISPLAY MOVEMENTS
-    displayMovement(currentAccount.movements);
-    //DISPLAY BALANCE
-    displayMovementBalance(currentAccount.movements);
-    //DISPLAYSUMMARY
-    calcDisplaySummary(currentAccount.movements);
+    /// update UI
+    updateUI(currentAccount);
+  }
+});
+
+///lets transfer money from one account to another
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault(); //this one prevent from  the form to load
+  const amount = Number(inputTransferAmount.value); //we change this to number becouse the input shoud be number
+  const receiverAcc = accounts.find(
+    acc => acc.userName === inputTransferTo.value
+  ); //we dont need to change this becouse we are gonna inpput string and that all we need and we are using find to much or find the account that we intered in the input
+  console.log(amount, receiverAcc);
+
+  inputTransferAmount.value = inputTransferTo.value = ''; //this cleans the aount that enters to transfer from apearing on that field
+
+  //we want  to know if the  amount we neeed to  transfer  is less than the current  account balance and  also amount > 0  and also we need to know if the reciver exist
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.userName !== currentAccount.userName
+  ) {
+    console.log('transfer valid'); //if the above valid then we get this out put in the console and the transfer is happening if that not true it doesnt transfer anything
+    //doing transfer
+    currentAccount.movements.push(-amount); //then the amout that transferd out of the current Account is negative
+    receiverAcc.movements.push(amount); // the reciver account is postive
+
+    //updateUI       this updates all the  accounts with balances everything
+    updateUI(currentAccount);
   }
 });
 
