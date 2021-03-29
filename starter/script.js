@@ -241,6 +241,24 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+/////get loan amount from bank
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value); //user account input  , he input to loan money from that bank
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // we verifay the condtion if he is qualifed
+    //then add movement to that account or add the loan to that account  if he qualifays the above condition
+    currentAccount.movements.push(amount); // we give him loan to the requester account
+
+    //update UI
+    updateUI(currentAccount);
+  }
+  //clearing the input field
+  inputLoanAmount.value = '';
+});
+
 //closing account       and also a new method called  'findindex' it is the same like 'find' but it returns only the index of that element
 
 btnClose.addEventListener('click', function (e) {
@@ -685,3 +703,30 @@ console.log(firstWithdrawal); //-400
 
 const account = accounts.find(acc => acc.owner === 'Jessica Davis'); //this is true   the it will retrive the account of the matched person
 console.log(account); //Object { owner: "Jessica Davis", movements: (8) […], interestRate: 1.5, pin: 2222, userName: "jd" }
+
+////// SOME AND EVERY   METHODS
+
+////SOME  method  is smilar to include method but it checks for conditions
+
+//eg
+//include tests for equality    like checking specific elemet is there or not and return boolean value
+console.log(movements); //[ 200, 450, -400, 3000, -650, -130, 70, 1300 ]
+console.log(movements.includes(-130)); //true
+//lets see for 'some'
+//some tests for condtionality
+const testingSome = movements.some(mov => mov > 0);
+console.log(testingSome); //true  becouse there are movements above 0
+
+/////////EVERY  METHOD
+//it  is a method that  return true if every condition is satisfied
+
+//eg
+console.log(movements.every(mov => mov > 0)); //false  becouse  the movements in that array has not all satisfay this condtion some are negative and some are postive
+console.log(account4.movements.every(mov => mov > 0)); //true    becouse all the movements in that account is postive so ' every ' method then returns true in this case
+
+//note we can also write the  callback function seperate from the method
+//eg
+const deposits = mov => mov > 0; //call back function
+console.log(movements.every(deposits)); //false
+console.log(movements.some(deposits)); //true
+console.log(movements.filter(deposits)); // [ 200, 450, 3000, 70, 1300 ]  filters only the postive
