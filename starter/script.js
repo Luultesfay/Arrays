@@ -61,10 +61,13 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovement = function (movements) {
+const displayMovement = function (movements, sort = false) {
   containerMovements.innerHTML = ''; // this makes the container to become empty
+
+  const move = sort ? movements.slice().sort((a, b) => a - b) : movements; //sorting the movement to assending  order  and we will  attach to handler al the last of this project
+
   // we created displayMoment function and accepting array of arguments
-  movements.forEach(function (mov, i) {
+  move.forEach(function (mov, i) {
     //we use for each loop to iterate on the parameter movements
 
     const type = mov > 0 ? 'deposit' : 'withdrawal'; //here we calculate whether the activity is deposit or withdrowal
@@ -283,6 +286,12 @@ btnClose.addEventListener('click', function (e) {
   inputCloseUsername.value = inputClosePin.value = ''; // this clears the input value and find after we  submit it to be delated
 });
 
+let sorted = false; //becouse at first the movement is not sorted
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault;
+  displayMovement(currentAccount.movements, !sorted);
+  sorted = !sorted; //this swhiches if its true to false if it is false to true
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -773,3 +782,36 @@ const overAllBallance2 = accounts
   .flatMap(acc => acc.movements) //flat Map method only goes 1 deep level  but if we encountered with super nested deep arrays  we  need to  use flat only
   .reduce((acc, mov) => acc + mov, 0);
 console.log(overAllBallance2); //17840
+
+//////SORTING  ARRAYS
+
+//with strings
+const owner = ['zack', 'solo', 'don', 'figo'];
+
+console.log(owner.sort()); // [ "don", "figo", "solo", "zack" ]
+
+//with numbers
+
+console.log(movements); //[ 200, 450, -400, 3000, -650, -130, 70, 1300 ]
+
+console.log(movements.sort()); //[ -130, -400, -650, 1300, 200, 3000, 450, 70 ]  not correct with numbers sort is not working with out mathematical calculations
+
+//lets fix the above arrays
+
+//asending order
+//movements.sort((a, b) => {
+//if (a > b) return 1;
+//if (a < b) return -1;
+//});
+movements.sort((a, b) => a - b); //the same as the commented out code//
+console.log(movements); //Array(8) [ -650, -400, -130, 70, 200, 450, 1300, 3000 ]
+
+//desending  order
+//movements.sort((a, b) => {
+//if (a > b) return -1;
+//if (a < b) return 1;
+//});
+movements.sort((a, b) => b - a); //the same as the above commented code
+console.log(movements); //Array(8) [ 3000, 1300, 450, 200, 70, -130, -400, -650 ]
+
+/////NOTE:  SORTING OF  STRINGS AND NUBERS IS NOT POSSIBLE   [1,'DDD','HOW',6]
