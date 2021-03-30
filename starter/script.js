@@ -816,30 +816,32 @@ console.log(movements); //Array(8) [ 3000, 1300, 450, 200, 70, -130, -400, -650 
 
 /////NOTE:  SORTING OF  STRINGS AND NUBERS IS NOT POSSIBLE   [1,'DDD','HOW',6]
 
-
-
 ///////////////////////////////////////
 // More Ways of Creating and Filling Arrays
-const arr = [1, 2, 3, 4, 5, 6, 7];
-console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+const ar = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7)); //[ 1, 2, 3, 4, 5, 6, 7 ]
 
-// Emprty arrays + fill method
+// Empty arrays + fill method
 const x = new Array(7);
-console.log(x);
+console.log(x); //[ <7 empty slots> ]
 // console.log(x.map(() => 5));
 x.fill(1, 3, 5);
 x.fill(1);
-console.log(x);
+console.log(x); //[ 1, 1, 1, 1, 1, 1, 1 ]
 
 arr.fill(23, 2, 6);
-console.log(arr);
+console.log(ar); //[ 1, 2, 3, 4, 5, 6, 7 ]
 
 // Array.from
 const y = Array.from({ length: 7 }, () => 1);
 console.log(y);
+[1, 1, 1, 1, 1, 1, 1];
 
 const z = Array.from({ length: 7 }, (_, i) => i + 1);
-console.log(z);
+console.log(z); //[ 1, 2, 3, 4, 5, 6, 7 ]
+
+const d = Array.from({ length: 100 }, (_, i) => i + 1);
+console.log(d); //Array(100) [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, … ]
 
 labelBalance.addEventListener('click', function () {
   const movementsUI = Array.from(
@@ -847,7 +849,7 @@ labelBalance.addEventListener('click', function () {
     el => Number(el.textContent.replace('€', ''))
   );
   console.log(movementsUI);
+  Array(8)[(1300, 70, -130, -650, 3000, -400, 450, 200)];
 
   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
 });
-*/
