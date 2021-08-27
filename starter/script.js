@@ -818,7 +818,7 @@ console.log(movements); //Array(8) [ 3000, 1300, 450, 200, 70, -130, -400, -650 
 
 ///////////////////////////////////////
 // More Ways of Creating and Filling Arrays
-const ar = [1, 2, 3, 4, 5, 6, 7];
+let ar = [1, 2, 3, 4, 5, 6, 7];
 console.log(new Array(1, 2, 3, 4, 5, 6, 7)); //[ 1, 2, 3, 4, 5, 6, 7 ]
 
 // Empty arrays + fill method
@@ -829,8 +829,8 @@ x.fill(1, 3, 5);
 x.fill(1);
 console.log(x); //[ 1, 1, 1, 1, 1, 1, 1 ]
 
-arr.fill(23, 2, 6);
-console.log(ar); //[ 1, 2, 3, 4, 5, 6, 7 ]
+ar.fill(9, 3, 6);
+console.log(ar); //[ 1, 2, 3, 9, 9, 9, 7 ]
 
 // Array.from
 const y = Array.from({ length: 7 }, () => 1);
